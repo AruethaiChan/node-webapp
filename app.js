@@ -25,6 +25,7 @@ app.get('/welcome', (req, res) =>
   }),
 );
 
+
 app.post('/data', function(req, res) {
    
    var result ={ student_id: req.body.student_id,
