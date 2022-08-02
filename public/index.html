@@ -7,6 +7,7 @@
 <title>First Page</title>
 <!--CSS-->
 <link rel="stylesheet" href="/jquery-ui/themes/base/jquery-ui.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="/styles/style.css"/>
 
 
@@ -48,16 +49,15 @@
     <div id="tabs-3">
 
       <div class="flex justify-center">
-        <div class="rounded-lg shadow-lg bg-white max-w-sm">
+        <div class="rounded-lg shadow-lg bg-white max-w-sm" id="data">
           <a href="#!">
-            <img class="rounded-t-lg" src="./images/XXXX.png" alt=""/>
+            <img class="rounded-t-lg" src="./images/XXX.png" alt=""/>
           </a>
           <div class="p-6">
-            <h5 class="text-gray-900 text-xl font-medium mb-2" >I'm YumMua</h5>
-            <p class="text-gray-700 text-base mb-4">
-              ชีวิตไม่มีกรอบ อะที่ชอบผมก็ทำ ❤
-            </p>
-            <button type="button" class=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">I Love you So much</button>
+            <h5 class="text-gray-900 text-xl font-medium mb-2" id="data-name" style="text-align: center ;">Name: </h5>
+            <h5 class="text-gray-900 text-xl font-medium mb-2" id="data-studentID" style="text-align: center;">Student ID: </h5>
+            <h5 class="text-gray-900 text-xl font-medium mb-2" id="data-gpa" style="text-align: center;">GPA: </h5>
+            <h5 class="text-gray-900 text-xl font-medium mb-2" id="data-position" style="text-align: center;">Position: </h5>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@
          headers: { 
            'Content-Type': 'application/json',
            "Accepts": "application/json",
-           "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjU5MDE5MTk1LCJleHAiOjE2NTkwMjI3OTUsIm5iZiI6MTY1OTAxOTE5NSwianRpIjoiTGpSUHZSZGVIU29zWkNObyIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.h8bBxWoSwZZgZ33h0IixyAZxt8Gn8KHi073IIuNUx3g",
+           "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjU5NDQ3NzI0LCJleHAiOjE2NTk0NTEzMjQsIm5iZiI6MTY1OTQ0NzcyNCwianRpIjoiYlVmRU41UmtDeEk4VFU2aCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.D8v46fdB2qRabj4xdAZufAp-OL6yvJhEyeOYW2pj8EI",
          },
          success: function(data){
            console.log(data);
@@ -252,12 +252,10 @@
         //elementButtonSave.setAttribute("class","tealA400");
         
        
-        elementButtonSave.setAttribute("onclick","popupConfirm('"+items[i].fullname+"',this)");
+        elementButtonSave.setAttribute("onclick","confirmAlert('"+items[i].student_id+"',this)",);
         
-
         cell5.appendChild(elementButtonSave);
-        
-        
+      
         tr.appendChild(cell5);
         //tr.appendChild(td);
       }
@@ -266,16 +264,47 @@
     myTableDiv.appendChild(table);
   }
 
-  function popupConfirm(fullname,objElement){
-    alert(fullname);
+  function  confirmAlert(id){
+    //console.log(id)
+     
+Swal.fire({
+  title: 'info',
+  text: "click confirm to view more information",
+  icon: 'info',
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Confirm'
+}).then((result) => {
+  if (result.isConfirmed) {
   }
+  $("#tabs").tabs("option","active",2)
+})
+          $.ajax({
+            method: "GET",
+            url: "https://tools.ecpe.nu.ac.th/network/api/student/"+id,
+            dataType : 'json',
+            headers: { 
+              'Content-Type': 'application/json',
+              "Accepts": "application/json",
+              "Authorization": `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjU5NDQ3NzI0LCJleHAiOjE2NTk0NTEzMjQsIm5iZiI6MTY1OTQ0NzcyNCwianRpIjoiYlVmRU41UmtDeEk4VFU2aCIsInN1YiI6MywicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.D8v46fdB2qRabj4xdAZufAp-OL6yvJhEyeOYW2pj8EI`
+            },
+            success: function(data){
+              console.log(data);
+              document.getElementById("data-name").innerHTML = "Name: "+data[0].fullname;
+              document.getElementById("data-studentID").innerHTML = "student_id: "+data[0].student_id;
+              document.getElementById("data-gpa").innerHTML = "gpa: "+data[0].gpa;
+              document.getElementById("data-position").innerHTML = "position: "+data[0].position;
+            }
+          });
+
+        
+
+
+}
 </script>
 
 
+
+
 </body>
-
-
-
-
-
 </html>
